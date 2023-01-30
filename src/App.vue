@@ -2,6 +2,7 @@
 import axios from 'axios'
 import {api} from './data';
 import {store} from './store'
+import AppMain from './components/AppMain.vue';
 import SearchBar from './components/SearchBar.vue';
 import ProductionCard from './components/prodaction/ProductionCard.vue';
 export default {
@@ -48,20 +49,7 @@ export default {
   <header>
     <search-bar placeholder="Cerca un film" @term-change="updateTitleFilter" @form-submit="searchProductions"></search-bar>
   </header>
-  <main>
-    <section>
-      <h2>
-        Movies
-      </h2>
-      <production-card v-for="movie in store.movies" :key="movie.id" :item="movie"></production-card>
-    </section>
-    <section>
-      <h2>
-        Series
-      </h2>
-     <production-card v-for="serie in store.series" :key="serie.id" :item="serie"></production-card>
-    </section>
-  </main>
+  <app-main></app-main>
 
 
 </template>

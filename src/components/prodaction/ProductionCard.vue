@@ -32,6 +32,7 @@ export default {
     methods:{
         setStarClass(n){
             n <= this.vote ? 'fa-solid' : 'fa-regular'
+            return starClass + 'fa-star';
         }
     }
     };
