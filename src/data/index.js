@@ -5,5 +5,9 @@ const api = {
 
 } 
 
+const pics= {
+    baseUrl: 'https://image.tmdb.org/t/p/w342'
+}
 
-export {api}
+
+export {api, pics}

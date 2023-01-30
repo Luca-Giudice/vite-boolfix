@@ -3,9 +3,10 @@ import axios from 'axios'
 import {api} from './data';
 import {store} from './store'
 import SearchBar from './components/SearchBar.vue';
+import ProductionCard from './components/prodaction/ProductionCard.vue';
 export default {
   name: 'Boolflix',
-  components: {SearchBar},
+  components: {SearchBar, ProductionCard},
   data: () => ({store, titleFilter: ''}),
   computed: {
     axiosConfig(){
@@ -52,39 +53,13 @@ export default {
       <h2>
         Movies
       </h2>
-      <ul v-for="movie in store.movies" :key="movie.id">
-        <li>
-          {{movie.title}}
-        </li>
-        <li>
-          {{ movie.original_title }}
-        </li>
-        <li>
-          {{ movie.original_language }}
-        </li>
-        <li>
-          {{ movie.vote_avarage }}
-        </li>
-      </ul>
+      <production-card v-for="movie in store.movies" :key="movie.id" :item="movie"></production-card>
     </section>
     <section>
       <h2>
         Series
       </h2>
-      <ul v-for="serie in store.series" :key="serie.id">
-        <li>
-          {{serie.name}}
-        </li>
-        <li>
-          {{ serie.original_name}}
-        </li>
-        <li>
-          {{ serie.original_language }}
-        </li>
-        <li>
-          {{ serie.vote_avarage }}
-        </li>
-      </ul>
+     <production-card v-for="serie in store.series" :key="serie.id" :item="serie"></production-card>
     </section>
   </main>
 

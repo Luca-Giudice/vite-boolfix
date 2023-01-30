@@ -1,4 +1,5 @@
 <script>
+import {pics} from '../../data'
 export default {
     name: 'ProductionCard',
     props:{
@@ -10,8 +11,28 @@ export default {
         },
         originalTitle(){
             return this.item.original_title || this.item.original_name;
+        },
+        hasFlag(){
+            const flags = ['it', 'en'];
+            return flags.includes(this.original_language);
+        },
+        flagSrc(){
+            const url = new Url(`../../asset/img/${this.item.original_language}.png`, import.meta.url);
+            return url.href;
+        },
+        posterPath(){
+            return pics.baseUrl + this.item.poster_path;
+        }, 
+        vote(){
+            return Math.ceil (this.item.vote_average / 2)
         }
 
+
+    },
+    methods:{
+        setStarClass(n){
+            n <= this.vote ? 'fa-solid' : 'fa-regular'
+        }
     }
     };
 
@@ -29,10 +50,14 @@ export default {
         {{ item.original_title }}
     </li>
     <li>
-        {{ item.original_language }}
+        <img v-if="hasFlag" :src="flagSrc" :alt="item.original_language">
+        <div v-else>{{ item.original_language }}</div>
     </li>
     <li>
-        {{ item.vote_avarage }}
+        <img :src="posterPath" alt="title">
+    </li>
+    <li>
+        <i v-for="n in 5" :class="setStarClass(n)" class="fa-star"></i>
     </li>
 </ul>
 
