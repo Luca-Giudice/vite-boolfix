@@ -18,20 +18,26 @@ export default {
         }
       }
     }
-  };
+  },
   methods: {
-    umdateTitleFilter(term){
+    updateTitleFilter(term){
       this.titleFilter = term
     },
-    searchMovies(){
-     if(!titleFilter) {
-      this.movies =[];
+    searchProductions(){
+     if(!this.titleFilter) {
+      store.movies =[];
+      store.series = [];
       return;
      }
-      const { key, baseUri, language} = api;
-      axios.get(`${baseUri}/search/movie`, this.axiosConfig).then(res => {
-        store.movies = res.data.results
-      }).catch(err => {console.error(err)});
+
+     this.fetchApi('search/movie', 'movies');
+     this.fetchApi('search/tv', 'series');
+     
+    },
+    fetchApi(endpoint, collection){
+      axios.get(`${baseUri}/${endpoint}`, this.axiosConfig).then(res => {
+        store[collection] = res.data.results;
+      }).catch(err => { console.error(err) });
     }
   }
 };
@@ -39,7 +45,7 @@ export default {
 
 <template>
   <header>
-    <search-bar placeholder="Cerca un film" @term-change="updateTitleFilter"></search-bar>
+    <search-bar placeholder="Cerca un film" @term-change="updateTitleFilter" @form-submit="searchProductions"></search-bar>
   </header>
   <main>
     <section>
@@ -58,6 +64,25 @@ export default {
         </li>
         <li>
           {{ movie.vote_avarage }}
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>
+        Series
+      </h2>
+      <ul v-for="serie in store.series" :key="serie.id">
+        <li>
+          {{serie.name}}
+        </li>
+        <li>
+          {{ serie.original_name}}
+        </li>
+        <li>
+          {{ serie.original_language }}
+        </li>
+        <li>
+          {{ serie.vote_avarage }}
         </li>
       </ul>
     </section>
